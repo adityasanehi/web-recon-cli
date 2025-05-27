@@ -120,24 +120,17 @@ The tool will display:
 * **Rate Limiting/Blocking:** Aggressive scanning (especially with greater depth) can lead to your IP being rate-limited or blocked by the target server or WAF. Use responsibly.
 * **Character Encoding:** Assumes UTF-8 for decoding content. Other encodings might lead to parsing issues.
 
-## Contributing (Example Section)
+## Contributions
 
 Contributions are welcome! If you have ideas for improvements, new secret patterns, or bug fixes, please consider:
 
-1.  Forking the repository (if applicable).
-2.  Creating a new branch for your feature or fix.
-3.  Submitting a pull request with a clear description of your changes.
+1.  Fork the repository.
+2.  Create a new branch for your feature or fix.
+3.  Submit a pull request with a clear description of your change(s).
 
 Please ensure any new secret patterns are well-tested to minimize false positives.
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE` file for details (or you can add an MIT License file if you distribute this).
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 ```
-
-**To use this README:**
-
-1.  Save the content above into a file named `README.md` in the same directory as your `webrecon.py` script.
-2.  If you're using Git, add and commit it to your repository.
-
-This provides a good starting point for your tool's documentation. Remember to update it as you add more features or make significant changes.
