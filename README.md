@@ -143,7 +143,7 @@ python webrecon.py patterns [OPTIONS]
 - `--category, -c CATEGORY`: Filter by category
 
 ## 📊 Sample Output
-![Demo](https://s3.onlytools.in/demo-images/images/recon-demo.png)
+![Demo](recon-demo.png)
 
 ## 🔧 Configuration
 
