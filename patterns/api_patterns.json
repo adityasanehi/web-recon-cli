@@ -1,0 +1,140 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "API endpoint detection patterns for Web Recon Tool",
+    "total_categories": 8,
+    "total_patterns": 47,
+    "categories": [
+      "standard_api_paths", "admin_paths", "auth_paths", "file_operations",
+      "monitoring_paths", "documentation_paths", "webhook_paths", "file_extensions"
+    ],
+    "last_updated": "2025-01-01"
+  },
+  "standard_api_paths": {
+    "description": "Common API endpoint patterns",
+    "patterns": [
+      "/api(?:[/\\?#]|$)",
+      "/v[1-9]\\d*(?:[/\\?#]|$)",
+      "/rest(?:[/\\?#]|$)",
+      "/rpc(?:[/\\?#]|$)",
+      "/graphql(?:[/\\?#]|$)",
+      "/wp-json(?:[/\\?#]|$)",
+      "/_api(?:[/\\?#]|$)",
+      "/service[s]?(?:[/\\?#]|$)",
+      "/endpoint[s]?(?:[/\\?#]|$)",
+      "/gateway(?:[/\\?#]|$)",
+      "/proxy(?:[/\\?#]|$)",
+      "/_functions(?:[/\\?#]|$)",
+      "/execute-api(?:[/\\?#]|$)",
+      "/_trpc(?:[/\\?#]|$)"
+    ]
+  },
+  "admin_paths": {
+    "description": "Administrative interface endpoints",
+    "patterns": [
+      "/admin(?:[/\\?#]|$)",
+      "/dashboard(?:[/\\?#]|$)",
+      "/panel(?:[/\\?#]|$)",
+      "/manage(?:[/\\?#]|$)",
+      "/control(?:[/\\?#]|$)",
+      "/administrator(?:[/\\?#]|$)",
+      "/backend(?:[/\\?#]|$)",
+      "/console(?:[/\\?#]|$)",
+      "/cp(?:[/\\?#]|$)",
+      "/management(?:[/\\?#]|$)"
+    ]
+  },
+  "auth_paths": {
+    "description": "Authentication and authorization endpoints",
+    "patterns": [
+      "/auth(?:[/\\?#]|$)",
+      "/oauth(?:[/\\?#]|$)",
+      "/login(?:[/\\?#]|$)",
+      "/signin(?:[/\\?#]|$)",
+      "/sso(?:[/\\?#]|$)",
+      "/token(?:[/\\?#]|$)",
+      "/refresh(?:[/\\?#]|$)",
+      "/logout(?:[/\\?#]|$)",
+      "/signout(?:[/\\?#]|$)",
+      "/session(?:[/\\?#]|$)",
+      "/authenticate(?:[/\\?#]|$)",
+      "/authorize(?:[/\\?#]|$)",
+      "/identity(?:[/\\?#]|$)"
+    ]
+  },
+  "file_operations": {
+    "description": "File upload, download, and manipulation endpoints",
+    "patterns": [
+      "/upload(?:[/\\?#]|$)",
+      "/download(?:[/\\?#]|$)",
+      "/export(?:[/\\?#]|$)",
+      "/import(?:[/\\?#]|$)",
+      "/backup(?:[/\\?#]|$)",
+      "/restore(?:[/\\?#]|$)",
+      "/files(?:[/\\?#]|$)",
+      "/media(?:[/\\?#]|$)",
+      "/assets(?:[/\\?#]|$)",
+      "/storage(?:[/\\?#]|$)",
+      "/attachments(?:[/\\?#]|$)"
+    ]
+  },
+  "monitoring_paths": {
+    "description": "Health checks, monitoring, and diagnostics",
+    "patterns": [
+      "/health(?:[/\\?#]|$)",
+      "/status(?:[/\\?#]|$)",
+      "/metrics(?:[/\\?#]|$)",
+      "/monitoring(?:[/\\?#]|$)",
+      "/ping(?:[/\\?#]|$)",
+      "/heartbeat(?:[/\\?#]|$)",
+      "/diagnostics(?:[/\\?#]|$)",
+      "/info(?:[/\\?#]|$)",
+      "/version(?:[/\\?#]|$)",
+      "/stats(?:[/\\?#]|$)",
+      "/telemetry(?:[/\\?#]|$)",
+      "/prometheus(?:[/\\?#]|$)"
+    ]
+  },
+  "documentation_paths": {
+    "description": "API documentation and schema endpoints",
+    "patterns": [
+      "/docs(?:[/\\?#]|$)",
+      "/api-docs(?:[/\\?#]|$)",
+      "/swagger(?:[/\\?#]|$)",
+      "/openapi(?:[/\\?#]|$)",
+      "/redoc(?:[/\\?#]|$)",
+      "/schema(?:[/\\?#]|$)",
+      "/spec(?:[/\\?#]|$)",
+      "/documentation(?:[/\\?#]|$)",
+      "/reference(?:[/\\?#]|$)"
+    ]
+  },
+  "webhook_paths": {
+    "description": "Webhook and callback endpoints",
+    "patterns": [
+      "/webhook[s]?(?:[/\\?#]|$)",
+      "/callback[s]?(?:[/\\?#]|$)",
+      "/hook[s]?(?:[/\\?#]|$)",
+      "/notify(?:[/\\?#]|$)",
+      "/events(?:[/\\?#]|$)",
+      "/trigger(?:[/\\?#]|$)",
+      "/listener(?:[/\\?#]|$)",
+      "/subscription(?:[/\\?#]|$)"
+    ]
+  },
+  "file_extensions": {
+    "description": "API-related file extensions",
+    "patterns": [
+      "\\.json(?:\\?|$)",
+      "\\.xml(?:\\?|$)",
+      "\\.jsonp(?:\\?|$)",
+      "\\.yaml(?:\\?|$)",
+      "\\.yml(?:\\?|$)",
+      "\\.csv(?:\\?|$)",
+      "\\.rss(?:\\?|$)",
+      "\\.atom(?:\\?|$)",
+      "\\.wsdl(?:\\?|$)",
+      "\\.wadl(?:\\?|$)"
+    ]
+  }
+}

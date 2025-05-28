@@ -1,135 +1,298 @@
-## README.md
-
 # Web Recon Tool (WRT)
 
-**Version: 0.2.1**
+**Version: 0.5.0** - Modular Pattern Configuration
 
-Web Recon Tool (WRT) is a Python command-line script designed for debugging and white-hat security reconnaissance. It takes a URL as input, fetches its content, and recursively (up to a specified depth) scans linked HTML pages and JavaScript files to identify:
+Web Recon Tool (WRT) is a powerful Python command-line script designed for ethical security reconnaissance and debugging. It provides comprehensive web application analysis by scanning URLs, detecting API endpoints, and identifying potential secrets using configurable pattern files.
 
-* Discovered URLs
-* Potential API/Backend Endpoints
-* Potential Secrets (API keys, tokens, sensitive keywords)
+## 🚀 Key Features
 
-The tool aims to provide a clean, colorful, and well-organized output in the terminal using the `rich` library and a structured CLI interface via `typer`.
+### **Enhanced Secret Detection**
+- **85+ Comprehensive Patterns**: Covers major cloud services, payment APIs, communication platforms, databases, and more
+- **Confidence-Based Filtering**: High/Medium/Low confidence levels with entropy analysis
+- **False Positive Reduction**: Advanced pattern matching with context analysis
+- **Modular Pattern Files**: Easy-to-edit JSON configuration files
 
-## Features
+### **Advanced API Discovery** 
+- **Categorized Endpoint Detection**: Authentication, Admin, Monitoring, Webhooks, Documentation
+- **JavaScript Framework Support**: Fetch, Axios, jQuery, Angular, React patterns
+- **Intelligent URL Validation**: Enhanced filtering and deduplication
 
-* **URL Discovery:** Finds absolute and relative URLs in HTML (attributes like `href`, `src`) and JavaScript code.
-* **API Endpoint Identification:** Uses a list of common patterns and keywords (e.g., `/api/`, `/v1/`, `graphql`) to flag potential API endpoints. Also looks for URLs in common JS API call patterns (`fetch`, `axios`, etc.).
-* **Secret Scanning:** Employs regular expressions to search for common secret patterns like API keys (AWS, Google, GitHub, Stripe, etc.), authorization tokens, JWTs, private key markers, and connection strings. Includes basic false positive reduction.
-* **Recursive Scanning:** Can crawl linked pages up to a user-defined depth.
-* **JavaScript Analysis:** Fetches and scans external JavaScript files and inline scripts. Uses `jsbeautifier` to format JS for potentially more reliable regex matching.
-* **User-Friendly CLI:** Powered by `Typer` for easy argument parsing and help messages.
-* **Rich Output:** Utilizes `Rich` for formatted tables, syntax-highlighted code contexts for secrets, and progress bars.
-* **Output to File:** Option to save the scan results to a text file.
-* **Context for Secrets:** Optionally displays a few lines of code surrounding a found secret for better context.
+### **Flexible Configuration**
+- **Separate Pattern Files**: `secret_patterns.json`, `api_patterns.json`, `js_api_patterns.json`
+- **Hot Reload**: Reload patterns without restarting
+- **Pattern Validation**: Built-in validation and error checking
+- **Community Friendly**: Easy JSON editing for contributions
 
-## Ethical Use and Disclaimer
+### **Professional Output**
+- **Rich Terminal Interface**: Colorful tables, progress bars, syntax highlighting
+- **Categorized Results**: Organized by endpoint type and confidence level
+- **Context Display**: Show surrounding code for better analysis
+- **Export Options**: Save detailed reports to files
 
-⚠️ **WARNING: FOR ETHICAL AND LEGAL USE ONLY** ⚠️
+## 📁 Project Structure
 
-This tool is intended for **legitimate debugging, security research, and white-hat penetration testing purposes only**. You must have **explicit, written permission** from the owner of any system or website before scanning it with this tool.
+```
+webrecon/
+├── webrecon.py              # Main reconnaissance tool
+├── secret_patterns.json     # 85+ secret detection patterns
+├── api_patterns.json        # API endpoint patterns by category
+├── js_api_patterns.json     # JavaScript API call patterns
+├── patterns/                # Optional custom pattern directory
+│   ├── custom_secrets.json
+│   └── custom_apis.json
+└── README.md
+```
 
-Unauthorized scanning or use of this tool against systems you do not have permission to test is **illegal and unethical**. The developers of this tool are not responsible for any misuse or damage caused by this script.
+## 🛠 Installation
 
-**Secret detection is based on patterns and regular expressions, which can lead to false positives.** Always manually verify any potential secrets found. Do not assume that everything flagged as a secret is indeed sensitive or exploitable without further investigation.
+### Prerequisites
+- Python 3.7+
+- pip package manager
 
-## Installation
+### Quick Setup
 
-1.  **Prerequisites:**
-    * Python 3.7+
+1. **Clone or download the tool:**
+   ```bash
+   git clone <repository-url>
+   cd web-recon-tool
+   ```
 
-2.  **Clone the repository or save the script:**
-    If you have it as a standalone `webrecon.py` file, you can skip this.
+2. **Create virtual environment (recommended):**
+   ```bash
+   python3 -m venv wrtenv
+   source wrtenv/bin/activate  # On Windows: wrtenv\Scripts\activate
+   ```
 
-3.  **Install dependencies:**
-    It's highly recommended to use a virtual environment.
+3. **Install dependencies:**
+   ```bash
+   pip install typer rich requests beautifulsoup4 jsbeautifier
+   ```
 
-    ```bash
-    python3 -m venv wrtenv
-    source wrtenv/bin/activate  # On Windows: wrtenv\Scripts\activate
-    pip install typer rich requests beautifulsoup4 jsbeautifier
-    ```
+4. **Initialize pattern files (first run):**
+   ```bash
+   python webrecon.py init-patterns
+   ```
 
-4.  **Make the script executable (Optional):**
-    ```bash
-    chmod +x webrecon.py
-    ```
+## 🎯 Usage
 
-## Usage
+### Basic Commands
 
+**Scan a website:**
+```bash
+python webrecon.py scan https://example.com
+```
+
+**Advanced scanning:**
+```bash
+python webrecon.py scan https://example.com \
+  --depth 2 \
+  --min-confidence high \
+  --show-context \
+  --output report.txt
+```
+
+### Pattern Management
+
+**View loaded patterns:**
+```bash
+python webrecon.py patterns --list           # Secret patterns
+python webrecon.py patterns --list-api       # API patterns
+python webrecon.py patterns --list-js        # JavaScript patterns
+python webrecon.py patterns --stats          # Statistics
+```
+
+**Validate pattern files:**
+```bash
+python webrecon.py patterns --validate
+```
+
+**Initialize default patterns:**
+```bash
+python webrecon.py init-patterns --overwrite
+```
+
+### Command Reference
+
+#### Scan Command
 ```bash
 python webrecon.py scan [OPTIONS] TARGET_URL
 ```
 
-Or if executable:
+**Options:**
+- `--depth, -d INTEGER`: Crawling depth (0 = target only, default: 1)
+- `--scan-js / --no-scan-js`: Include JavaScript analysis (default: enabled)
+- `--scan-html / --no-scan-html`: Include HTML analysis (default: enabled)
+- `--min-confidence [low|medium|high]`: Filter secrets by confidence (default: low)
+- `--show-context / --no-context`: Show code context for secrets (default: disabled)
+- `--categorize-apis / --no-categorize-apis`: Group API endpoints (default: enabled)
+- `--reload-patterns`: Reload pattern files before scanning
+- `--output, -o FILE`: Save results to file
 
+#### Pattern Command
 ```bash
-./webrecon.py scan [OPTIONS] TARGET_URL
+python webrecon.py patterns [OPTIONS]
 ```
 
-**Arguments:**
-
-* `TARGET_URL`: The base URL to start scanning from (Required).
-
 **Options:**
+- `--list, -l`: List secret patterns
+- `--list-api`: List API endpoint patterns
+- `--list-js`: List JavaScript patterns
+- `--stats, -s`: Show pattern statistics
+- `--validate, -v`: Validate all pattern files
+- `--category, -c CATEGORY`: Filter by category
 
-* `--depth, -d INTEGER`: Crawling depth for linked pages. `0` means only the target URL. Default: `1`.
-* `--scan-js / --no-scan-js`: Scan linked JavaScript files. Default: `True`.
-* `--scan-html / --no-scan-html`: Scan inline HTML content for secrets/URLs beyond just tags. Default: `True`.
-* `--show-context / --no-context`: Show code context for found secrets. Default: `False`.
-* `--output, -o FILENAME`: Save results to a file (e.g., `results.txt`).
-* `--version, -v`: Show script version and exit.
-* `--help`: Show help message and exit.
+## 📊 Sample Output
 
-**Examples:**
+```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                    Web Recon Tool v0.5.0 - Scanning: https://example.com                    ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-1.  **Scan a single URL with default depth (1), including JS and HTML analysis:**
-    ```bash
-    python webrecon.py scan [https://example.com](https://example.com)
-    ```
+Authentication (3)
+  1. https://example.com/auth/login
+  2. https://example.com/oauth/token
+  3. https://example.com/api/authenticate
 
-2.  **Scan only the target URL (depth 0) and don't scan JavaScript files:**
-    ```bash
-    python webrecon.py scan [https://example.com](https://example.com) --depth 0 --no-scan-js
-    ```
+HIGH CONFIDENCE (2)
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ N  ┃ Type                          ┃ Value (Excerpt)  ┃ Source             ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│ 1  │ GitHub Token (Classic)        │ ghp_abc123...    │ File: app.js       │
+│ 2  │ AWS Access Key ID             │ AKIAIOSFODNN7... │ Inline JS          │
+└────┴───────────────────────────────┴──────────────────┴────────────────────┘
+```
 
-3.  **Scan with a depth of 2 and show context for secrets:**
-    ```bash
-    python webrecon.py scan [https://another-example.com](https://another-example.com) --depth 2 --show-context
-    ```
+## 🔧 Configuration
 
-4.  **Save the output to a file:**
-    ```bash
-    python webrecon.py scan [https://testsite.org](https://testsite.org) -o report.txt
-    ```
+### Secret Patterns (`secret_patterns.json`)
 
-## Output
+Add new secret detection patterns:
 
-The tool will display:
+```json
+{
+  "Custom API Key": {
+    "pattern": "(customapi_[a-zA-Z0-9]{32})",
+    "value_group": 1,
+    "desc": "Custom service API key",
+    "confidence": "high",
+    "category": "custom_service"
+  }
+}
+```
 
-1.  **Discovered URLs:** A table of all unique URLs found.
-2.  **Potential API/Backend Endpoints:** A table of URLs that match common API patterns.
-3.  **Potential Secrets Found:** A table listing the type of secret, its excerpt, and the source file/URL. If `--show-context` is used, relevant code snippets will be displayed.
+### API Patterns (`api_patterns.json`)
 
-## Known Limitations
+Define new endpoint categories:
 
-* **False Positives/Negatives:** Secret and API endpoint detection relies on regex and heuristics, which means it can produce false positives (flagging something that isn't a secret/API) or false negatives (missing actual secrets/APIs). **Manual verification is crucial.**
-* **Dynamic Content:** The tool primarily analyzes static content fetched via HTTP requests. Websites that heavily rely on client-side JavaScript to render content or fetch further data dynamically might not reveal all their URLs or secrets through this method alone. More advanced tools like headless browsers (e.g., Selenium, Playwright) might be needed for such cases.
-* **Scope of Regexes:** While the regex patterns cover many common cases, they are not exhaustive and might miss novel or custom secret formats.
-* **Rate Limiting/Blocking:** Aggressive scanning (especially with greater depth) can lead to your IP being rate-limited or blocked by the target server or WAF. Use responsibly.
-* **Character Encoding:** Assumes UTF-8 for decoding content. Other encodings might lead to parsing issues.
+```json
+{
+  "payment_endpoints": {
+    "description": "Payment processing endpoints",
+    "patterns": [
+      "/payment(?:[/\\?#]|$)",
+      "/billing(?:[/\\?#]|$)",
+      "/checkout(?:[/\\?#]|$)"
+    ]
+  }
+}
+```
 
-## Contributions
+### JavaScript Patterns (`js_api_patterns.json`)
 
-Contributions are welcome! If you have ideas for improvements, new secret patterns, or bug fixes, please consider:
+Add framework-specific API call patterns:
 
-1.  Fork the repository.
-2.  Create a new branch for your feature or fix.
-3.  Submit a pull request with a clear description of your change(s).
+```json
+{
+  "vue_patterns": {
+    "description": "Vue.js HTTP patterns",
+    "patterns": [
+      "this\\.$http\\.\\w+\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  }
+}
+```
 
-Please ensure any new secret patterns are well-tested to minimize false positives.
+## 🔍 Detected Patterns
 
-## License
+### Secret Categories
+- **Cloud Services**: AWS, Google Cloud, Azure (12 patterns)
+- **Version Control**: GitHub, GitLab, Bitbucket (6 patterns)
+- **Communication**: Slack, Discord, Teams, Telegram (8 patterns)
+- **Payment**: Stripe, PayPal, Square (6 patterns)
+- **Databases**: MongoDB, Redis, PostgreSQL, MySQL (8 patterns)
+- **Authentication**: JWT, SSH keys, OAuth tokens (7 patterns)
+- **Development Tools**: Docker, NPM, PyPI (6 patterns)
+- **Social Media**: Facebook, Twitter, YouTube (8 patterns)
+- **Productivity**: Linear, Notion, Jira, Asana (8 patterns)
+- **Infrastructure**: Twilio, SendGrid, Cloudflare (12 patterns)
+- **Generic**: API keys, passwords, hex keys (4 patterns)
+
+### API Endpoint Categories
+- **Standard API Paths**: `/api`, `/v1`, `/rest`, `/graphql`
+- **Admin Interfaces**: `/admin`, `/dashboard`, `/panel`
+- **Authentication**: `/auth`, `/oauth`, `/login`, `/token`
+- **File Operations**: `/upload`, `/download`, `/export`
+- **Monitoring**: `/health`, `/status`, `/metrics`
+- **Documentation**: `/docs`, `/swagger`, `/openapi`
+- **Webhooks**: `/webhook`, `/callback`, `/notify`
+
+## ⚠️ Ethical Use and Disclaimer
+
+**🔴 FOR AUTHORIZED SECURITY TESTING ONLY 🔴**
+
+This tool is designed for **legitimate security research, penetration testing, and debugging purposes**. You must have **explicit written permission** from system owners before scanning.
+
+**⚠️ Important Warnings:**
+- Unauthorized scanning is **illegal and unethical**
+- Pattern-based detection can produce **false positives**
+- Always **manually verify** potential secrets
+- **Rate limiting** may occur with aggressive scanning
+- Developers are **not responsible** for misuse
+
+## 🤝 Contributing
+
+We welcome contributions! The modular design makes it easy to add new patterns:
+
+### Adding Secret Patterns
+1. Edit `secret_patterns.json`
+2. Add your pattern with proper metadata
+3. Test with `python webrecon.py patterns --validate`
+4. Submit a pull request
+
+### Adding API Patterns
+1. Edit `api_patterns.json` or `js_api_patterns.json`
+2. Follow the existing structure
+3. Validate your patterns
+4. Submit with test cases
+
+### Contribution Guidelines
+- **Test thoroughly** to minimize false positives
+- **Document patterns** with clear descriptions
+- **Include metadata** (confidence, category, description)
+- **Follow JSON formatting** standards
+
+## 🐛 Known Limitations
+
+- **Pattern-Based Detection**: May produce false positives/negatives
+- **Static Analysis**: Limited to content available via HTTP requests
+- **Dynamic Content**: JavaScript-rendered content may be missed
+- **Rate Limiting**: Aggressive scanning may trigger protections
+- **Encoding**: Assumes UTF-8 content encoding
+
+## 📈 Recent Updates (v0.5.0)
+
+- ✅ **Modular Pattern Files**: Separate JSON files for easy editing
+- ✅ **85+ Secret Patterns**: Comprehensive coverage of modern services
+- ✅ **Confidence Scoring**: High/Medium/Low classification
+- ✅ **Enhanced Validation**: Built-in pattern validation
+- ✅ **Hot Reload**: Reload patterns without restarting
+- ✅ **Better Categorization**: Organized by service type
+- ✅ **Improved CLI**: Enhanced commands and options
+
+## 📄 License
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+---
+
+**Happy ethical hacking! 🔐✨**

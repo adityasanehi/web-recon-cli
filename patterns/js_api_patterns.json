@@ -1,0 +1,78 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "JavaScript API call detection patterns for Web Recon Tool",
+    "total_categories": 8,
+    "total_patterns": 23,
+    "categories": [
+      "fetch_patterns", "axios_patterns", "jquery_patterns", "xhr_patterns",
+      "angular_patterns", "react_patterns", "node_patterns", "generic_patterns"
+    ],
+    "last_updated": "2025-01-01"
+  },
+  "fetch_patterns": {
+    "description": "Native Fetch API patterns",
+    "patterns": [
+      "fetch\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "fetch\\s*\\(\\s*`([^`]+)`",
+      "fetch\\s*\\(\\s*([a-zA-Z_$][a-zA-Z0-9_$]*)",
+      "window\\.fetch\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "axios_patterns": {
+    "description": "Axios HTTP client patterns",
+    "patterns": [
+      "axios\\s*\\.\\s*(?:get|post|put|delete|patch|head|options|request)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "axios\\s*\\(\\s*{[^}]*url\\s*:\\s*['\"]([^'\"]+)['\"]",
+      "axios\\s*\\.\\s*create\\s*\\([^)]*baseURL\\s*:\\s*['\"]([^'\"]+)['\"]",
+      "axios\\s*\\.\\s*defaults\\s*\\.\\s*baseURL\\s*=\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "jquery_patterns": {
+    "description": "jQuery AJAX patterns",
+    "patterns": [
+      "\\$\\.(?:ajax|get|post|getJSON|load)\\s*\\([^)]*(?:url\\s*:\\s*['\"]([^'\"]+)['\"]|['\"]([^'\"]+)['\"])",
+      "jQuery\\.(?:ajax|get|post|getJSON|load)\\s*\\([^)]*(?:url\\s*:\\s*['\"]([^'\"]+)['\"]|['\"]([^'\"]+)['\"])",
+      "\\$\\.ajax\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "xhr_patterns": {
+    "description": "XMLHttpRequest patterns",
+    "patterns": [
+      "(?:xhr|xmlhttprequest)\\s*\\.\\s*open\\s*\\(\\s*['\"](?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)['\"]\\s*,\\s*['\"]([^'\"]+)['\"]",
+      "new\\s+XMLHttpRequest\\s*\\(\\s*\\)\\s*\\.\\s*open\\s*\\(\\s*['\"](?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)['\"]\\s*,\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "angular_patterns": {
+    "description": "Angular HTTP client patterns",
+    "patterns": [
+      "http\\s*\\.\\s*(?:get|post|put|delete|patch|head|options)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "this\\s*\\.\\s*http\\s*\\.\\s*(?:get|post|put|delete|patch|head|options)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "HttpClient\\s*\\.\\s*(?:get|post|put|delete|patch|head|options)\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "react_patterns": {
+    "description": "React and modern framework patterns",
+    "patterns": [
+      "useFetch\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "useQuery\\s*\\([^)]*['\"]([^'\"]+)['\"]",
+      "SWR\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "node_patterns": {
+    "description": "Node.js HTTP patterns",
+    "patterns": [
+      "require\\s*\\(\\s*['\"]request['\"]\\s*\\)\\s*\\.\\s*(?:get|post|put|delete|patch|head|options)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "require\\s*\\(\\s*['\"]superagent['\"]\\s*\\)\\s*\\.\\s*(?:get|post|put|delete|patch|head|options)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "require\\s*\\(\\s*['\"]node-fetch['\"]\\s*\\)\\s*\\(\\s*['\"]([^'\"]+)['\"]"
+    ]
+  },
+  "generic_patterns": {
+    "description": "Generic API call patterns",
+    "patterns": [
+      "(?:api|request|call)\\s*\\(\\s*['\"]([^'\"]+)['\"]",
+      "(?:apiCall|makeRequest|sendRequest)\\s*\\([^)]*['\"]([^'\"]+)['\"]",
+      "(?:endpoint|url)\\s*[:=]\\s*['\"]([^'\"]+)['\"]"
+    ]
+  }
+}
