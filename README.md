@@ -34,12 +34,13 @@ Web Recon Tool (WRT) is a powerful Python command-line script designed for ethic
 ```
 webrecon/
 ├── webrecon.py              # Main reconnaissance tool
-├── secret_patterns.json     # 85+ secret detection patterns
-├── api_patterns.json        # API endpoint patterns by category
-├── js_api_patterns.json     # JavaScript API call patterns
-├── patterns/                # Optional custom pattern directory
-│   ├── custom_secrets.json
-│   └── custom_apis.json
+├── patterns/
+│   ├── secret_patterns.json     # 85+ secret detection patterns
+│   ├── api_patterns.json        # API endpoint patterns by category
+│   ├── js_api_patterns.json     # JavaScript API call patterns
+│   ├── custom_secrets.json      # Optional custom patterns
+│   └── custom_apis.json         # Optional custom patterns
+├── LICENSE
 └── README.md
 ```
 
